@@ -1,22 +1,22 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+
 import os
 
-
 app = Flask(__name__)
-app.config.from_object(os.environ['APP_SETTINGS'])
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://FlaskApp:Studi@localhost:5432/mercadona'
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 from models import Products
 
 
-app = Flask(__name__)
-
-
 @app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+def home():
+    products = Products.query.all()
+    return render_template("index.html", products=products)
 
 
 if __name__ == '__main__':
