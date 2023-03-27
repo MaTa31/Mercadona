@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block body %}
+  <div class="row">
+    <div class="col-md-4 offset-md-4">
+      <div class="card card-body">
+        <form method="POST">
+
+            <div class="form-group">
+                        <label class="form-label">Nom du produit</label>
+                        <input class="form-control" type="text" name="name_product" placeholder="" value="{{ product.name_product }}">
+                    </div>
+            <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <input class="form-control" type="textarea" name="description" placeholder="" value="{{ product.description }}">
+                    </div>
+            <div class="form-group">
+                        <label class="form-label">Photo</label>
+                        <input class="form-control" type="file" accept=".jpg,.jpeg,.png" name="photo" placeholder="">
+                    </div>
+            <div class="form-group">
+                        <label class="form-label" for="SelectCategory">Categorie</label>
+                        <select class="form-control" name="category" id="SelectCategory" value="{{ product.category }}">
+                            {% for category in categories %}
+                                <option value="{{ category.name_category }}">{{ category.name_category }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+            <div class="form-group">
+                        <label class="form-label">Prix</label>
+                        <input class="form-control" min="0" max="" type="number" name="price" placeholder="" value="{{ product.price }}">
+                    </div>
+            <div class="form-group">
+                        <label class="form-label" for="PromoNumber">% Promotion</label>
+                        <input class="form-control" min="0" max="100" type="number" name="promoNumber" value="{{ product.promo }}"/>
+                    </div>
+            <div class="form-group">
+                        <label class="form-label">Date fin Promotion</label>
+                        <input class="form-control" type="Date" name="DateFinPromo" placeholder="" value="{{ product.date_promo }}">
+                    </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+              Sauvegarder
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+
