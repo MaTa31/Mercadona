@@ -1,25 +1,26 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <h1 class="text-center">Produits</h1>
+    <h1 class="text-center">Produits du moment !!!</h1>
 
 
         <div class="row row-cols-1 row-cols-md-2 g-4 mt-4">
         {% for product in products %}
           <div class="col">
-            <div class="card">
 
-              <img src="data:;base64,{{image_list[loop.index0]}}" class="card-img-top" alt="...">
-
-              <div class="card-body ">
+            <div class="card h-100">
+               <img class="card-img-top" src="data:;base64,{{image_list[loop.index0]}}" alt="...">
+              <div class="card-body">
                 <h5 class="card-title text-center">{{ product.name_product }}</h5>
+
                 <p class="card-text text-center">{{ product.description }}</p>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">{{ product.category }}</li>
-                  <li class="list-group-item">{{ product.price }} €</li>
-                  {% if product.date_promo  != None %}<li class="list-group-item">valable jusqu'au {{ product.date_promo }}</li>{% endif %}
-                  </ul>
+                <p class="card-text text-center">{{ product.category }}</p>
               </div>
+                <div class = "card-footer text-end">
+                    {% if product.date_promo  != None %}<p class="list-group-item">valable jusqu'au {{ product.date_promo }}</p>{% endif %}
+                    <p >{{ product.price }} €</p>
+                </div>
+
             </div>
           </div>
           {% endfor %}
