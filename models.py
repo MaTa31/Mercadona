@@ -8,7 +8,7 @@ class Products(db.Model):
     name_product = db.Column(db.String(50))
     description = db.Column(db.String(500))
     category = db.Column(db.String(50))
-    # image = db.Column(db.LargeBinary())
+    image = db.Column(db.LargeBinary)
     price = db.Column(db.Float())
     date_promo = db.Column(db.DateTime(), nullable=True)
     promo = db.Column(db.Float())
@@ -17,5 +17,5 @@ class Products(db.Model):
 class Category(db.Model):
     __tablename__ = 'category'
 
-    category_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name_category = db.Column(db.String(50))

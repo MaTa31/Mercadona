@@ -1,6 +1,9 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from io import BytesIO
+from PIL import Image
+import base64
 
 import os
 
@@ -28,40 +31,49 @@ from models import Products, Category
 
 
 @app.route('/')
-def home():
+def get_product():
     products = Products.query.all()
-    return render_template("index.html", products=products)
+    image_list = []
+
+    for product in products:
+        image = base64.b64encode(product.image).decode('ascii')
+        image_list.append(image)
+
+    return render_template("home.html", image_list=image_list, products=products)
 
 
 @app.route('/panel')
 def panel():
     categories = Category.query.all()
     products = Products.query.all()
+
     return render_template('panel.html', products=products, categories=categories)
 
 
 @app.route('/add_product', methods=['POST'])
 def add_product():
     if request.method == 'POST':
+
         name_product = request.form['name_product']
         description = request.form['description']
         category = request.form['category']
-        image = request.form['photo']
+        file = request.files.get('image')
+        image = file.read()
         price = request.form['price']
         date_promo = request.form['DateFinPromo']
         promo = request.form['promoNumber']
+
+        print(request.files)
 
         if date_promo == '':
             date_promo = None
         if promo == '':
             promo = None
 
-        print(name_product)
-
         new_product = Products(name_product=name_product,
                                description=description,
                                category=category,
-                               # image=image,
+                               image=image,
                                price=price,
                                date_promo=date_promo,
                                promo=promo)
@@ -82,7 +94,7 @@ def edit_product(id):
         name_product = request.form['name_product']
         description = request.form['description']
         category = request.form['category']
-        image = request.form['photo']
+        image = request.files['photo']
         price = request.form['price']
         date_promo = request.form['DateFinPromo']
         promo = request.form['promoNumber']
