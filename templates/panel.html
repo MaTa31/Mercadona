@@ -18,12 +18,12 @@
             <div class="card card-body">
                 <form action="{{ url_for('add_product') }}" method="POST">
                     <div class="form-group">
-                        <label class="form-label">Nom du produit</label>
-                        <input class="form-control" type="text" name="name_product" placeholder="">
+                        <label class="form-label" for="name_product">Nom du produit</label>
+                        <input class="form-control" type="text" name="name_product" id="name_product" placeholder="">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Description</label>
-                        <input class="form-control" type="textarea" name="description" placeholder="">
+                        <label class="form-label" for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" placeholder=""></textarea>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Photo</label>
@@ -38,16 +38,16 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Prix</label>
-                        <input class="form-control" min="0" max="" type="number" name="price" placeholder="">
+                        <label class="form-label" for="price">Prix</label>
+                        <input class="form-control" min="0" max="" type="number" name="price" id="price" placeholder="">
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="PromoNumber">% Promotion</label>
-                        <input class="form-control" min="0" max="100" type="number" name="promoNumber" />
+                        <label class="form-label" for="promoNumber">% Promotion</label>
+                        <input class="form-control" min="0" max="100" type="number" name="promoNumber" id="promoNumber" />
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Date fin Promotion</label>
-                        <input class="form-control" type="Date" name="DateFinPromo" placeholder="">
+                        <label class="form-label" for="DateFinPromo" >Date fin Promotion</label>
+                        <input class="form-control" type="Date" name="DateFinPromo" id="DateFinPromo" placeholder="">
                     </div>
 
                     <button class="btn btn-primary btn-block mt-4">
@@ -81,15 +81,34 @@
                         <td>{% if product.date_promo  == None %}Aucune{% else %}{{ product.date_promo }}{% endif %}</td>
                         <td width="130">
                             <a href="/edit/{{ product.id }}" class="btn btn-secondary btn-sm">modifier</a>
-                            <a href="/delete/{{ product.id }}" class="btn btn-danger btn-delete btn-sm">supprimer</a>
+                            <a class="btn btn-danger btn-delete btn-sm" data-bs-toggle="modal" data-bs-target="#DeleteModal" >supprimer</a>
                         </td>
                     </tr>
+                    <div class="modal fade" id="DeleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmation</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            Etes-vous sur de vouloir supprimer cet élément ?
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <a href="/delete/{{ product.id }}" class="btn btn-danger">Supprimer</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
                 {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-    </div>
+
 
 {% endblock %}
 
