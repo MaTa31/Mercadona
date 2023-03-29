@@ -15,38 +15,11 @@
             {% endwith %}
             <div class="card card-body">
                 <form action="{{ url_for('add_product') }}" method="POST" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label class="form-label" for="name_product">Nom du produit</label>
-                        <input class="form-control" type="text" name="name_product" id="name_product" placeholder="">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="description">Description</label>
-                        <textarea class="form-control" id="description" name="description" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="image">Photo</label>
-                        <input class="form-control" type="file" accept=".jpg,.jpeg,.png" name="image" id="image" placeholder="">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="SelectCategory">Categorie</label>
-                        <select class="form-control" name="category" id="SelectCategory">
-                            {% for category in categories %}
-                                <option value="{{ category.name_category }}">{{ category.name_category }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="price">Prix</label>
-                        <input class="form-control" min="0" max="" step="any" type="number" name="price" id="price" placeholder="">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="promoNumber">% Promotion</label>
-                        <input class="form-control" min="0" max="100" type="number" name="promoNumber" id="promoNumber" />
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="DateFinPromo" >Date fin Promotion</label>
-                        <input class="form-control" type="Date" name="DateFinPromo" id="DateFinPromo" placeholder="">
-                    </div>
+
+                    {% include "forms.html" with context %}
+
+
+
 
                     <button class="btn btn-primary btn-block mt-4">
                         Ajouter
