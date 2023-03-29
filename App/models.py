@@ -1,4 +1,4 @@
-from views import db, request
+from App.views import db
 
 
 class Products(db.Model):
