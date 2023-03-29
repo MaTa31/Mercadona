@@ -3,9 +3,9 @@
     <div class="row"><h3>Produits</h3></div>
     <div class="row">
         <div class="col-md-4">
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
+            {% with succes = get_flashed_messages(category_filter=["success"]) %}
+                {% if succes %}
+                    {% for message in succes %}
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             {{ message }}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -13,6 +13,30 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
+
+            {% with warning = get_flashed_messages(category_filter=["warning"]) %}
+                {% if warning %}
+                    {% for message in warning %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% with error = get_flashed_messages(category_filter=["error"]) %}
+                {% if error %}
+                    {% for message in error %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+
             <div class="card card-body">
                 <form action="{{ url_for('add_product') }}" method="POST" enctype="multipart/form-data">
 

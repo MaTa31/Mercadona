@@ -8,7 +8,7 @@ import base64
 import os
 
 from flask_sqlalchemy.session import Session
-from sqlalchemy import create_engine, func
+from sqlalchemy import create_engine, func, exc
 
 app = Flask(__name__)
 
@@ -54,34 +54,37 @@ def panel():
 def add_product():
     if request.method == 'POST':
 
-        name_product = request.form['name_product']
-        description = request.form['description']
-        category = request.form['category']
-        file = request.files.get('image')
-        image = file.read()
-        price = request.form['price']
         date_promo = request.form['DateFinPromo']
         promo = request.form['promoNumber']
-
-        print(request.files)
+        type_file = request.files.get('image').mimetype
 
         if date_promo == '':
             date_promo = None
         if promo == '':
             promo = None
 
-        new_product = Products(name_product=name_product,
-                               description=description,
-                               category=category,
-                               image=image,
-                               price=price,
-                               date_promo=date_promo,
-                               promo=promo)
 
-        db.session.add(new_product)
-        db.session.commit()
+        if type_file == 'image/jpg' or type_file == 'image/jpeg' or type_file == 'image/png':
 
-        flash('Produit ajouté avec succée')
+            new_product = Products(name_product=request.form.get('name_product'),
+                                   description=request.form.get('description'),
+                                   category=request.form.get('category'),
+                                   image=request.files.get('image').read(),
+                                   price=request.form.get('price'),
+                                   date_promo=date_promo,
+                                   promo=promo)
+
+            try:
+                db.session.add(new_product)
+                db.session.commit()
+            except exc.SQLAlchemyError:
+                flash("Une erreur est survenue veuillez réessayer", 'error')
+                return redirect(url_for('panel'))
+        else:
+            flash("Merci d'utiliser le format JPG JPEG ou PNG pour l'image", 'warning')
+            return redirect(url_for('panel'))
+
+        flash('Produit modifier avec succée', 'success')
         return redirect(url_for('panel'))
 
 
@@ -90,39 +93,49 @@ def edit_product(id):
     product_select = Products.query.get_or_404(id)
     categories = Category.query.all()
 
+
     if request.method == 'POST':
-        name_product = request.form['name_product']
-        description = request.form['description']
-        category = request.form['category']
-        image = request.files['photo']
-        price = request.form['price']
+
         date_promo = request.form['DateFinPromo']
         promo = request.form['promoNumber']
+        type_file = request.files.get('image').mimetype
 
         if date_promo == '':
             date_promo = None
         if promo == '':
             promo = None
 
-        product_select.name_product = name_product
-        product_select.description = description
-        product_select.category = category
-        product_select.image = image
-        product_select.price = price
-        product_select.date_promo = date_promo
-        product_select.promo = promo
+        if type_file == 'image/jpg' or type_file == 'image/jpeg' or type_file == 'image/png':
 
-        db.session.add(product_select)
-        db.session.commit()
+            product_select.name_product = request.form.get('name_product')
+            product_select.description = request.form.get('description')
+            product_select.category = request.form.get('category')
+            product_select.image = request.files.get('image').read()
+            product_select.price = request.form.get('price')
+            product_select.date_promo = date_promo
+            product_select.promo = promo
 
-        flash('Produit mise à jour avec succée')
+            try:
+                db.session.add(product_select)
+                db.session.commit()
+            except exc.SQLAlchemyError:
+                flash("Une erreur est survenue veuillez réessayer", 'error')
+                return redirect(url_for('panel'))
+
+        else:
+            flash("Merci d'utiliser le format JPG JPEG ou PNG pour l'image", 'warning')
+            return redirect(url_for('panel'))
+
+
+
+        flash('Produit ajouté avec succée', 'success')
         return redirect(url_for('panel'))
 
     return render_template('edit.html', categories=categories, product=product_select)
 
 
 @app.route('/delete/<string:id>', methods=['POST', 'GET'])
-def delete_employee(id):
+def delete_product(id):
     product_select = Products.query.get_or_404(id)
     db.session.delete(product_select)
     db.session.commit()
