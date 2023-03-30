@@ -14,11 +14,27 @@
                 <h5 class="card-title text-center">{{ product.name_product }}</h5>
 
                 <p class="card-text text-center">{{ product.description }}</p>
-                <p class="card-text text-center">{{ product.category }}</p>
+                <p class="card-text fw-bold text-primary">{{ product.category }}</p>
               </div>
                 <div class = "card-footer text-end">
-                    {% if product.date_promo  != None %}<p class="list-group-item">valable jusqu'au {{ product.date_promo }}</p>{% endif %}
-                    <p >{{ product.price }} €</p>
+                    {% if product.promo  != None %}
+
+                        {% if product.date_promo  != None %}
+                            <p class="list-group-item">Offre valable jusqu'au {{ product.date_promo.strftime('%d/%m/%Y') }}</p>
+                            <p ><s>{{ product.price }} €</s></p>
+                            <p class = "fw-bold text-success" >{{ final_price }} €</p>
+
+                        {% else %}
+                            <p ><s>{{ product.price }} €</s></p>
+                            <p class = "fw-bold text-success" >{{ final_price }} €</p>
+
+                        {% endif %}
+
+                    {% else %}
+                        <p class ="fw-bold m-0">{{ product.price }} €</p>
+
+                    {% endif %}
+
                 </div>
 
             </div>

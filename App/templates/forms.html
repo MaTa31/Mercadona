@@ -2,19 +2,19 @@
 
     <div class="form-group">
         <label class="form-label" for="name_product">Nom du produit</label>
-        <input class="form-control" type="text" name="name_product" id="name_product" placeholder="" required>
+        <input class="form-control" type="text" name="name_product" id="name_product" value = "{{products.name_product}}" placeholder="" required>
     </div>
     <div class="form-group">
         <label class="form-label" for="description">Description</label>
-        <textarea class="form-control" id="description" name="description" placeholder="" required></textarea>
+        <textarea class="form-control" id="description" name="description" placeholder="" maxlength="500" required>{{ products.description }}</textarea>
     </div>
     <div class="form-group">
         <label class="form-label" for="image">Photo</label>
-        <input class="form-control" type="file" accept=".jpg,.jpeg,.png" name="image" id="image" placeholder="" required>
+        <input class="form-control" type="file" accept=".jpg,.jpeg,.png" name="image" id="image"  placeholder="" required>
     </div>
     <div class="form-group">
         <label class="form-label" for="SelectCategory">Categorie</label>
-        <select class="form-control" name="category" id="SelectCategory">
+        <select class="form-control" name="category" id="SelectCategory" >
             {% for category in categories %}
                 <option value="{{ category.name_category }}">{{ category.name_category }}</option>
             {% endfor %}
@@ -22,15 +22,15 @@
     </div>
     <div class="form-group">
         <label class="form-label" for="price">Prix</label>
-        <input class="form-control" min="0" max="" step="any" type="number" name="price" id="price" placeholder="" required>
+        <input class="form-control" min="0" max="" step="any" type="number" name="price" id="price" value = "{{ products.price }}" placeholder="" required>
     </div>
     <div class="form-group">
         <label class="form-label" for="promoNumber">% Promotion</label>
-        <input class="form-control" min="0" max="100" type="number" name="promoNumber" id="promoNumber" />
+        <input class="form-control" min="0" max="100" type="number" name="promoNumber" id="promoNumber" value = "{{ products.promo }}"/>
     </div>
     <div class="form-group">
         <label class="form-label" for="DateFinPromo" >Date fin Promotion</label>
-        <input class="form-control" type="Date" name="DateFinPromo" id="DateFinPromo" placeholder="">
+        <input class="form-control" type="Date" name="DateFinPromo" id="DateFinPromo" value = "{{ products.date_promo }}" placeholder="">
     </div>
 
 
