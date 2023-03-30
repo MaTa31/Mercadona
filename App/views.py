@@ -1,3 +1,4 @@
+from App.models import Products, Category
 from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
@@ -11,16 +12,16 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-from App.models import Products, Category
-
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html',iserror=True ), 404
+    return render_template('404.html', iserror=True), 404
+
 
 @app.errorhandler(500)
 def internal_error(error):
     return render_template('500.html', iserror=True), 500
+
 
 @app.route('/')
 def get_product():
@@ -35,7 +36,7 @@ def get_product():
         if product.promo is None:
             final_price = product.price
         else:
-            final_price = round(product.price * ((100 - product.promo)/100),2)
+            final_price = round(product.price * ((100 - product.promo)/100), 2)
 
     return render_template("home.html", final_price=final_price, image_list=image_list, products=products)
 
@@ -89,7 +90,6 @@ def add_product():
 def edit_product(id):
     product_select = Products.query.get_or_404(id)
     categories = Category.query.all()
-
 
     if request.method == 'POST':
 

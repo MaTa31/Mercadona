@@ -1,59 +1,61 @@
 {% extends "base.html" %}
 {% block body %}
-    <div class="row"><h3>Produits</h3></div>
-    <div class="row">
-        <div class="col-md-4">
-            {% with succes = get_flashed_messages(category_filter=["success"]) %}
-                {% if succes %}
-                    {% for message in succes %}
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ message }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-
-            {% with warning = get_flashed_messages(category_filter=["warning"]) %}
-                {% if warning %}
-                    {% for message in warning %}
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            {{ message }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-
-            {% with error = get_flashed_messages(category_filter=["error"]) %}
-                {% if error %}
-                    {% for message in error %}
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            {{ message }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-
-
-            <div class="card card-body">
-                <form action="{{ url_for('add_product') }}" method="POST" enctype="multipart/form-data">
-
-                    {% include "forms.html" with context %}
-
-
-
-
-                    <button class="btn btn-primary btn-block mt-4">
-                        Ajouter
-                    </button>
-                </form>
-            </div>
+<div class="row">
+    <h3>Produits</h3>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        {% with succes = get_flashed_messages(category_filter=["success"]) %}
+        {% if succes %}
+        {% for message in succes %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <div class="col-md-8">
-            <table id="tableProducts" class="table align-middle table-striped table-bordered " style="width:100%">
-                <thead>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% with warning = get_flashed_messages(category_filter=["warning"]) %}
+        {% if warning %}
+        {% for message in warning %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% with error = get_flashed_messages(category_filter=["error"]) %}
+        {% if error %}
+        {% for message in error %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+
+        <div class="card card-body">
+            <form action="{{ url_for('add_product') }}" method="POST" enctype="multipart/form-data">
+
+                {% include "forms.html" with context %}
+
+
+
+
+                <button class="btn btn-primary btn-block mt-4">
+                    Ajouter
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <table id="tableProducts" class="table align-middle table-striped table-bordered " style="width:100%">
+            <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nom</th>
@@ -63,49 +65,51 @@
                     <th>% Promotion</th>
                     <th>Date fin Promotion</th>
                 </tr>
-                </thead>
-                <tbody class="table-group-divider ">
+            </thead>
+            <tbody class="table-group-divider ">
                 {% for product in products %}
-                    <tr >
-                        <td>{{ product.id }}</td>
-                        <td>{{ product.name_product }}</td>
-                        <td>{{ product.description }}</td>
-                        <td>{{ product.category }}</td>
-                        <td >{{ product.price }}€</td>
-                        <td>{% if product.promo  == None %}Aucune{% else %}{{ product.promo }}{% endif %}</td>
-                        <td>{% if product.date_promo  == None %}Aucune{% else %}{{ product.date_promo }}{% endif %}</td>
-                        <td class = "">
-                            <div class="btn-group-vertical " role="group">
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name_product }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>{{ product.category }}</td>
+                    <td>{{ product.price }}€</td>
+                    <td>{% if product.promo == None %}Aucune{% else %}{{ product.promo }}{% endif %}</td>
+                    <td>{% if product.date_promo == None %}Aucune{% else %}{{ product.date_promo }}{% endif %}</td>
+                    <td class="">
+                        <div class="btn-group-vertical " role="group">
                             <a href="/edit/{{ product.id }}" class="btn btn-secondary btn-sm">modifier</a>
-                            <a class="btn btn-danger btn-delete btn-sm" data-bs-toggle="modal" data-bs-target="#DeleteModal" >supprimer</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <div class="modal fade" id="DeleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmation</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            Etes-vous sur de vouloir supprimer cet élément ?
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <a href="/delete/{{ product.id }}" class="btn btn-danger">Supprimer</a>
-                          </div>
+                            <a class="btn btn-danger btn-delete btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#DeleteModal">supprimer</a>
                         </div>
-                      </div>
+                    </td>
+                </tr>
+                <div class="modal fade" id="DeleteModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirmation</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Etes-vous sur de vouloir supprimer cet élément ?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                <a href="/delete/{{ product.id }}" class="btn btn-danger">Supprimer</a>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
 
                 {% endfor %}
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
     </div>
+</div>
 
 
 {% endblock %}
-

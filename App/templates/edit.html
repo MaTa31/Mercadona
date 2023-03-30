@@ -1,21 +1,18 @@
 {% extends "base.html" %}
 {% block body %}
-  <div class="row">
-    <div class="col-md-4 offset-md-4">
-      <div class="card card-body">
-        <form method="POST" enctype="multipart/form-data">
+<div class="row">
+  <div class="col-md-4 offset-md-4">
+    <div class="card card-body">
+      <form method="POST" enctype="multipart/form-data">
 
-            {% include "forms.html" with context %}
+        {% include "forms.html" with context %}
 
-            <button type="submit" class="btn btn-primary btn-block mt-4">
-              Sauvegarder
-            </button>
+        <button type="submit" class="btn btn-primary btn-block mt-4">
+          Sauvegarder
+        </button>
 
-        </form>
-      </div>
+      </form>
     </div>
   </div>
+</div>
 {% endblock %}
-
-
-
