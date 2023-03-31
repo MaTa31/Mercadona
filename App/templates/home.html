@@ -8,7 +8,7 @@
   {% for product in products %}
   <div class="col">
 
-    <div class="card h-100">
+    <div id = "card-product" class="card h-100">
       <img class="card-img-top mt-4" src="data:;base64,{{image_list[loop.index0]}}" alt="...">
       <div class="card-body">
         <h5 class="card-title text-center">{{ product.name_product }}</h5>
@@ -16,7 +16,7 @@
         <p class="card-text text-center">{{ product.description }}</p>
 
       </div>
-      <div class="card-footer text-end">
+      <div id = "card-footer-product" class="card-footer text-end">
         <div class="row">
           <div class="col">
             <p id = "text-category" class="card-text text-start fw-bold">{{ product.category }}</p>
