@@ -3,3 +3,13 @@
     height: 30vw;
     object-fit:contain;
 }
+.card , .card-footer {
+    border-color: rgba(251,186,22,0.5);
+}
+
+.card-footer {
+    background-color: rgba(251,186,22,0.02);
+}
+#text-category , #text-final-price {
+    color : rgba(0,156,87,255)
+}
