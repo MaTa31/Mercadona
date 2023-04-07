@@ -1,6 +1,5 @@
 from App.views import db
 
-
 class Products(db.Model):
     __tablename__ = 'products'
 

@@ -5,13 +5,24 @@ from flask_migrate import Migrate
 import os
 import base64
 
+# a optimiser dans un __init__.py
+# a optimiser dans un __init__.py
+# a optimiser dans un __init__.py
+# a optimiser dans un __init__.py
+
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+# a optimiser dans un __init__.py
+# a optimiser dans un __init__.py
+# a optimiser dans un __init__.py
+# a optimiser dans un __init__.py
+
 from App.models import Products, Category
+
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -36,12 +47,31 @@ def get_product():
         if product.promo is None:
             final_price = product.price
         else:
-            final_price = round(product.price * ((100 - product.promo)/100), 2)
+            final_price = round(product.price * ((100 - product.promo) / 100), 2)
 
     return render_template("home.html", final_price=final_price, image_list=image_list, products=products)
 
 
-@app.route('/panel')
+@app.route('/<category>', methods=['GET'])
+def get_product_by_category(category):
+
+    products = Products.query.filter(Products.category == category)
+    image_list = []
+    final_price = 0
+
+    for product in products:
+        image = base64.b64encode(product.image).decode('ascii')
+        image_list.append(image)
+
+        if product.promo is None:
+            final_price = product.price
+        else:
+            final_price = round(product.price * ((100 - product.promo) / 100), 2)
+
+    return render_template("home.html", final_price=final_price, image_list=image_list, products=products)
+
+
+@app.route('/panel', methods=['GET'])
 def panel():
     categories = Category.query.all()
     products = Products.query.all()
