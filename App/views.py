@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
 from flask_migrate import Migrate
+from datetime import date
 import os
 import base64
 
@@ -39,6 +40,7 @@ def get_product():
     products = Products.query.all()
     image_list = []
     final_price = 0
+    today_date = date.today()
 
     for product in products:
         image = base64.b64encode(product.image).decode('ascii')
@@ -49,15 +51,16 @@ def get_product():
         else:
             final_price = round(product.price * ((100 - product.promo) / 100), 2)
 
-    return render_template("home.html", final_price=final_price, image_list=image_list, products=products)
+    return render_template("home.html", final_price=final_price, image_list=image_list, products=products
+                           ,today_date=today_date)
 
 
 @app.route('/<category>', methods=['GET'])
 def get_product_by_category(category):
-
     products = Products.query.filter(Products.category == category)
     image_list = []
     final_price = 0
+    today_date = date.today()
 
     for product in products:
         image = base64.b64encode(product.image).decode('ascii')
@@ -68,7 +71,8 @@ def get_product_by_category(category):
         else:
             final_price = round(product.price * ((100 - product.promo) / 100), 2)
 
-    return render_template("home.html", final_price=final_price, image_list=image_list, products=products)
+    return render_template("home.html", final_price=final_price, image_list=image_list, products=products,
+                           today_date=today_date)
 
 
 @app.route('/panel', methods=['GET'])

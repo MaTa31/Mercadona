@@ -21,19 +21,17 @@
           <div class="col">
             <p id = "text-category" class="card-text text-start fw-bold">{{ product.category }}</p>
           </div>
-          <div class="col">{% if product.promo != None %}
+          <div class="col">
+            {% if product.promo != None and product.date_promo == None %}
 
-            {% if product.date_promo != None %}
-            <p class="list-group-item text-danger"><i>Offre valable jusqu'au {{ product.date_promo.strftime('%d/%m/%Y')
-                }}</i></p>
-            <p><s>{{ product.price }} €</s></p>
-            <p id ="text-final-price" class="fw-bold">{{ final_price }} €</p>
+                <p><s>{{ product.price }} €</s></p>
+                <p id ="text-final-price" class="fw-bold">{{ final_price }} €</p>
 
-            {% else %}
-            <p><s>{{ product.price }} €</s></p>
-            <p id ="text-final-price" class="fw-bold">{{ final_price }} €</p>
-
-            {% endif %}
+            {% elif product.date_promo != None and product.date_promo >= today_date %}
+                <p class="list-group-item text-danger"><i>Offre valable jusqu'au
+                    {{ product.date_promo.strftime('%d/%m/%Y')}}</i></p>
+                <p><s>{{ product.price }} €</s></p>
+                <p id ="text-final-price" class="fw-bold">{{ final_price }} €</p>
 
             {% else %}
             <p class="fw-bold m-0">{{ product.price }} €</p>
