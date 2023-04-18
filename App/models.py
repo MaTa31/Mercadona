@@ -1,4 +1,6 @@
+from flask_login import UserMixin
 from App.views import db
+
 
 class Products(db.Model):
     __tablename__ = 'products'
@@ -18,3 +20,14 @@ class Category(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name_category = db.Column(db.String(50))
+
+
+class User(UserMixin,db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(100))
+
+
+

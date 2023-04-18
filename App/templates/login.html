@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+
+{% block body %}
+<div class="login-form">
+    {% with error = get_flashed_messages(category_filter=["error"]) %}
+        {% if error %}
+        {% for message in error %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    <form action="/login" method="post">
+        <h2 class="text-center">Se connecter</h2>
+        <div class="form-group mb-3">
+            <input type="email" class="form-control" name="email" placeholder="email" required="required">
+
+        </div>
+        <div class="form-group mb-3">
+            <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+
+        </div>
+        <div class="form-group mb-3 ">
+            <button type="submit" class="btn btn-primary btn-block w-100 ">connexion</button>
+        </div>
+
+        <div class="text-center">
+            <label class="checkbox">
+                <input name = "remember" type="checkbox"> Se souvenir de moi
+            </label>
+
+        </div>
+    </form>
+</div>
+{% endblock %}
