@@ -139,7 +139,7 @@ def add_product():
             flash("Merci d'utiliser le format JPG JPEG ou PNG pour l'image", 'warning')
             return redirect(url_for('panel'))
 
-        flash('Produit modifier avec succée', 'success')
+        flash('Produit ajouté avec succée', 'success')
         return redirect(url_for('panel'))
 
 
@@ -181,7 +181,7 @@ def edit_product(id):
             flash("Merci d'utiliser le format JPG JPEG ou PNG pour l'image", 'warning')
             return redirect(url_for('panel'))
 
-        flash('Produit ajouté avec succée', 'success')
+        flash('Produit modifié avec succée', 'success')
         return redirect(url_for('panel'))
 
     return render_template('edit.html', categories=categories, products=product_select)
@@ -193,7 +193,7 @@ def delete_product(id):
     product_select = Products.query.get_or_404(id)
     db.session.delete(product_select)
     db.session.commit()
-    flash('Produit supprimer avec succée')
+    flash('Produit supprimer avec succée', 'success')
     return redirect(url_for('panel'))
 
 
