@@ -7,6 +7,8 @@ from datetime import date
 from werkzeug.security import check_password_hash
 import os
 import base64
+from psycogreen.gevent import patch_psycopg
+
 
 # a optimiser dans un __init__.py
 # a optimiser dans un __init__.py
@@ -23,6 +25,8 @@ migrate = Migrate(app, db)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
+patch_psycopg()
 
 # password = generate_password_hash ('Sax89thj@er8', method='sha256')
 # print(password)
